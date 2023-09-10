@@ -8,8 +8,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint --config .eslintrc.js \"./src/**/*.js\"",
     "start": "node src/server.js",
-    "dev": "set LOG_LEVEL=debug nodemon ./src/server.js --watch src",
-    "debug": "set LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 ./src/server.js --watch src"
+    "dev": "cross-env  LOG_LEVEL=debug nodemon ./src/server.js --watch src",
+    "debug": "cross-env  LOG_LEVEL=debug nodemon --inspect=0.0.0.0:9229 ./src/server.js --watch src"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
   "author": "Tanvir Singh",
   "license": "UNLICENSED",
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint": "^8.49.0",
     "nodemon": "^3.0.1",
     "prettier": "3.0.3"

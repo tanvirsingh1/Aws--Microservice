@@ -37,7 +37,7 @@ app.get('/', (req, res) => {
   // Send a 200 'OK' response with info about our repo
   res.status(200).json({
     status: 'ok',
-    author: 'tanvirsingh1',
+    author,
     githubUrl: 'https://github.com/tanvirsingh1/fragments',
     version,
   });
