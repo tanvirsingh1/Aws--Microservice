@@ -49,6 +49,7 @@ module.exports.strategy = () =>
       // also go lookup more info in a database, but we don't need it.
       done(null, user.email);
     } catch (err) {
+      console.log("Not verified")
       logger.error({ err, token }, 'could not verify token');
       done(null, false);
     }
