@@ -11,6 +11,7 @@ const authenticate = require('./auth');
 
 // Create an express app instance we can use to attach middleware and HTTP routes
 const app = express();
+const { createErrorResponse } = require('./response');
 
 
 // Use gzip/deflate compression middleware
@@ -66,13 +67,10 @@ app.use((err, req, res, next) => {
     logger.error({ err }, `Error processing request`);
   }
 
-  res.status(status).json({
-    status: 'error',
-    error: {
-      message,
-      code: status,
-    },
-  });
+  const errorResponse = createErrorResponse(status, message);
+
+  // Send the error response
+  res.status(status).json(errorResponse);
 });
 
 // Export our `app` so we can access it in server.js
