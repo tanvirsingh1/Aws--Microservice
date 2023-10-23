@@ -1,6 +1,6 @@
 #Dockerising the Fragment microservice.
-FROM node:18.13.0
-
+FROM node:18.13.0-alpine@sha256:a584000c00399ee48d20aa1813094a331a0b2488ffc707355cad7e88749bc48f AS dependencies
+ENV NODE_ENV=production
 LABEL maintainer="Tanvir Singh <tanvir-Singh1@myseneca.ca>"
 LABEL description="Fragments node.js microservice"
 
@@ -24,15 +24,25 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install node dependencies defined in package-lock.json
-RUN npm install
+RUN npm install --production
 
-# Copy src to /app/src/
-COPY ./src ./src
 
-# Copy our HTPASSWD file
-COPY ./tests/.htpasswd ./tests/.htpasswd
-# We run our service on port 8080
-# Start the container by running our server
+#############################################################
+FROM node:18.13.0-alpine@sha256:a584000c00399ee48d20aa1813094a331a0b2488ffc707355cad7e88749bc48f AS build
+
+WORKDIR /app
+
+# Copying node_modules from the dependencies stage with correct ownership
+COPY --from=dependencies --chown=node:node /app/node_modules /app/node_modules
+
+# Copy source code and other necessary files with correct ownership
+COPY --chown=node:node ./src ./src
+COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
+
+# Switching to non-root user 'node' for better security
+USER node
+
+# Command to run the application
 CMD npm start
 
 EXPOSE 8080
