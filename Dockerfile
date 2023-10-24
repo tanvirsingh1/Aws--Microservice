@@ -26,20 +26,20 @@ COPY package*.json ./
 # Install node dependencies defined in package-lock.json
 RUN npm install --production
 
-
+#stage2
 #############################################################
 FROM node:18.13.0-alpine@sha256:fda98168118e5a8f4269efca4101ee51dd5c75c0fe56d8eb6fad80455c2f5827 AS build
 
 WORKDIR /app
 
-# Copying node_modules from the dependencies stage with correct ownership
+# Copying node_modules from the dependencies stage 
 COPY --from=dependencies /app /app
 
-# Copy source code and other necessary files with correct ownership
+# Copy source code and other necessary files 
 COPY ./src ./src
+
 COPY  ./tests/.htpasswd ./tests/.htpasswd
 
-COPY . . 
 # Command to run the application
 CMD npm start
 
