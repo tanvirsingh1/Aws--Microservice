@@ -1,5 +1,5 @@
 #Dockerising the Fragment microservice.
-FROM node:18.13.0-alpine@sha256:a584000c00399ee48d20aa1813094a331a0b2488ffc707355cad7e88749bc48f AS dependencies
+FROM node:18.13.0-alpine@sha256:fda98168118e5a8f4269efca4101ee51dd5c75c0fe56d8eb6fad80455c2f5827 AS dependencies
 ENV NODE_ENV=production
 LABEL maintainer="Tanvir Singh <tanvir-Singh1@myseneca.ca>"
 LABEL description="Fragments node.js microservice"
@@ -28,20 +28,18 @@ RUN npm install --production
 
 
 #############################################################
-FROM node:18.13.0-alpine@sha256:a584000c00399ee48d20aa1813094a331a0b2488ffc707355cad7e88749bc48f AS build
+FROM node:18.13.0-alpine@sha256:fda98168118e5a8f4269efca4101ee51dd5c75c0fe56d8eb6fad80455c2f5827 AS build
 
 WORKDIR /app
 
 # Copying node_modules from the dependencies stage with correct ownership
-COPY --from=dependencies --chown=node:node /app/node_modules /app/node_modules
+COPY --from=dependencies /app /app
 
 # Copy source code and other necessary files with correct ownership
-COPY --chown=node:node ./src ./src
-COPY --chown=node:node ./tests/.htpasswd ./tests/.htpasswd
+COPY ./src ./src
+COPY  ./tests/.htpasswd ./tests/.htpasswd
 
-# Switching to non-root user 'node' for better security
-USER node
-
+COPY . . 
 # Command to run the application
 CMD npm start
 
