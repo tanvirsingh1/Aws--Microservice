@@ -30,4 +30,11 @@ describe('/ health check', () => {
     expect(res.body.githubUrl.startsWith('https://github.com/')).toBe(true);
     expect(res.body.version).toEqual(version);
   });
+  test('should handle generic errors', async () => {
+  
+
+    const res = await request(app).get('/wrong-route');
+    expect(res.statusCode).toEqual(404);
+  })
+
 });

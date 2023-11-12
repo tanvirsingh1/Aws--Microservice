@@ -1,6 +1,6 @@
 const { Fragment } = require('../../model/fragment');
 const {createErrorResponse, createSuccessResponse} = require('../../response');
-
+const md  = require('markdown-it')();
 module.exports = async (req, res) => {
     let id = req.params.id; 
     const user = req.user;
@@ -14,19 +14,48 @@ module.exports = async (req, res) => {
         extension = null;
     }
 
-    if (extension && extension !== 'txt') {
+   
+try{
+    var format=null;
+    const fragment_data = await Fragment.byId(user, id);
+    let type = fragment_data.mimeType
+    if(extension === "html")
+    {
+        format = "text/html" 
+    }
+    else if(extension === "txt")
+    {
+        format = "text/plain"
+    }
+    else if(("text"+extension) === type )
+    {
+        format = type
+    }
+    else if(extension)
+    {
+        format = "invalid"
+    }
+    if((!fragment_data.formats.includes(format) && format != null) )
+    {
         return createErrorResponse(
             res.status(415).json({
-                message: 'Unsupported Media type, Only (text/plain) is supported[use .txt]',
+                message: "Invalid type conversion, only markdown to HTML is supported[as of now]",
             })
         );
     }
-try{
-    const fragment_data = await Fragment.byId(user, id);
+
+    else{
+
         try{
+            if (extension === 'html' && fragment_data.mimeType === 'text/markdown') {
+                type = 'text/html';  // Set the content type to HTML if markdown needs to be converted
+              }
         const dataResult = await fragment_data.getData();
-            res.setHeader('Content-Type', 'text/plain');
-            return createSuccessResponse(res.status(200).send(dataResult));
+  
+        const data=  convertData(dataResult, type);
+    
+            res.setHeader('Content-Type', type);
+            return createSuccessResponse(res.status(200).send(data));
      } catch(err) {
             return createErrorResponse(
                 res.status(500).json({
@@ -35,7 +64,7 @@ try{
                 })
             );
         }
-    
+    }
 } catch(err){
     return createErrorResponse(
         res.status(404).json({
@@ -43,4 +72,20 @@ try{
         })
     );
 }
-};
+
+};    
+function convertData(data, contentType) {
+   
+    if (contentType === 'text/html') {
+      return md.render(data.toString());
+    } 
+    else if(contentType === 'text/plain')
+    {
+        return data.toString()
+    }
+    else {
+      // For all other types, return the data as is
+      return data;
+    }
+  }
+  

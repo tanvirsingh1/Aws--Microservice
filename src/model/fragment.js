@@ -84,7 +84,7 @@ class Fragment {
   static delete(ownerId, id) {
    return deleteFragment(ownerId, id)
   }
-
+  
   /**
    * Saves the current fragment to the database
    * @returns Promise<void>
@@ -140,9 +140,25 @@ class Fragment {
    * @returns {Array<string>} list of supported mime types
    */
   get formats() {
-    return this.type.startsWith('text/plain') ? ['text/plain'] : [];
+    // Define conversion options for Markdown to HTML
+    const plainconvert= ['text/plain']
+    const markdownToHtmlConversions = ['text/markdown', 'text/plain','text/html'];
+  
+    // Check if the MIME type is 'text/markdown'
+    if(this.mimeType === 'text/plain')
+    {
+      return plainconvert
+    }
+   else if (this.mimeType === 'text/markdown') {
+      // If so, return the available conversion types for Markdown (i.e., to HTML)
+      return markdownToHtmlConversions;
+    } else {
+      // For all other MIME types, no conversions are supported at this time
+      return []; // Return an empty array indicating no available conversions
+    }
   }
-
+  
+ 
   /**
    * Returns true if we know how to work with this content type
    * @param {string} value a Content-Type value (e.g., 'text/plain' or 'text/plain: charset=utf-8')

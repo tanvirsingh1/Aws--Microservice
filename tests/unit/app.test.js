@@ -12,6 +12,14 @@ describe('404 Handler', () => {
         code: 404,
       },
     });
-  });
-  
+
+   
+});
+test('Health Check Route', async () => {
+  const response = await request(app).get('/');
+  expect(response.status).toBe(200);
+  expect(response.body.status).toEqual('ok' );
+});
+
+ 
 });

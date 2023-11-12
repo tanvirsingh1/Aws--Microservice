@@ -16,7 +16,11 @@ module.exports = async (req, res) => {
         )
 
     }catch(err){
-        createErrorResponse(404,err)
+         createErrorResponse(
+            res.status(404).json({
+                message: "Fragment not Found",
+            })
+        );
     }
 
 }

@@ -10,8 +10,11 @@ const router = express.Router();
 
 // Define our first route, which will be: GET /v1/fragments
 router.get('/fragments', require('./get'));
-
+//This is just a test route
+router.get('/fragments/tanvir', require('./gettest'));
+////
 router.get('/fragments/:id', require('./getId'));
+
 router.get('/fragments/:id/info', require('./getIdInfo.js'));
 // Support sending various Content-Types on the body up to 5M in size
 const rawBody = () =>

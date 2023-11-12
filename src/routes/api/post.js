@@ -24,6 +24,8 @@ module.exports = async (req, res) => {
       });
       await newFragment.save();
       await newFragment.setData(req.body)
+      
+     
      const location = `${req.protocol}://${req.hostname}:8080/v1${req.url}/${newFragment.id}`;
     res.location(location);
 
