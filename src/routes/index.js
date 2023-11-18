@@ -9,6 +9,7 @@ const { version, author } = require('../../package.json');
 const router = express.Router();
 const { authenticate } = require('../auth');
 const { createSuccessResponse } = require('../response');
+const { hostname } = require('os');
 /**
  * Expose all of our API routes on /v1/* to include an API version.
  */
@@ -28,6 +29,8 @@ router.get('/', (req, res) => {
     // Use your own GitHub URL for this!
     githubUrl: 'https://github.com/tanvirsingh/fragments',
     version,
+     // Include the hostname in the response
+     hostname: hostname(),
   }
   res.status(200).json(createSuccessResponse(data));
 });
