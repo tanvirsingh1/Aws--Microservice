@@ -9,7 +9,12 @@ function generateUUID() {
 module.exports = async (req, res) => {
    if(!Buffer.isBuffer(req.body))
    {
-    res.status(415).json(createErrorResponse(415, "Unsupported Media Type"));
+    createErrorResponse(
+      res.status(415).json({
+         status: "error",
+          error: "Unsupported Media Type",
+      })
+  );
     
    }
    else{
@@ -32,14 +37,7 @@ module.exports = async (req, res) => {
       createSuccessResponse(
         res.status(201).json({
           status: 'ok',
-          fragments: {
-            id: newFragment.id,
-            ownerId: newFragment.ownerId,
-            created: newFragment.created,
-            update: newFragment.update,
-            type: newFragment.type,
-            size: newFragment.size,
-          }
+          fragments: newFragment,
         })
       )
 
