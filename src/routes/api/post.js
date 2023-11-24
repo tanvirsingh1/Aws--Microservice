@@ -27,9 +27,10 @@ module.exports = async (req, res) => {
         type: req.headers['content-type'],
         size: Number(req.headers['content-length']),
       });
-      await newFragment.save();
+      console.log("Going to save")
+      //await newFragment.save();
       await newFragment.setData(req.body)
-      
+      console.log("saved")
      
      const location = `${req.protocol}://${req.hostname}:8080/v1${req.url}/${newFragment.id}`;
     res.location(location);
