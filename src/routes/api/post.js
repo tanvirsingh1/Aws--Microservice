@@ -28,7 +28,7 @@ module.exports = async (req, res) => {
         size: Number(req.headers['content-length']),
       });
       console.log("Going to save")
-      //await newFragment.save();
+      await newFragment.save();
       await newFragment.setData(req.body)
       console.log("saved")
      
