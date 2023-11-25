@@ -123,4 +123,4 @@ module.exports.readFragmentData = readFragmentData;
 module.exports.deleteFragment = deleteFragment;
 module.exports.listFragments = listFragments;
 module.exports.writeFragment = writeFragment;
-module.exports.writeFragment = readFragment;
+module.exports.readFragment =readFragment

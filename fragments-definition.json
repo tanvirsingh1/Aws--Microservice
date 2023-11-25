@@ -1,6 +1,7 @@
 {
     "ipcMode": null,
     "executionRoleArn": "arn:aws:iam::085750952744:role/LabRole",
+    "taskRoleArn":"arn:aws:iam::085750952744:role/LabRole",
     "containerDefinitions": [
       {
         "dnsSearchDomains": null,
@@ -26,6 +27,10 @@
         "linuxParameters": null,
         "cpu": 256,
         "environment": [
+          {
+            "name": "AWS_S3_BUCKET_NAME",
+            "value": "tanvir-singh1-fragments"
+          },
           {
             "name": "API_URL",
             "value": "http://localhost:8080"
@@ -84,7 +89,6 @@
     ],
     "placementConstraints": [],
     "memory": "512",
-    "taskRoleArn": null,
     "compatibilities": [
       "EC2",
       "FARGATE"
