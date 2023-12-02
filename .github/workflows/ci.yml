@@ -111,6 +111,7 @@ jobs:
           tags: ${{ env.DOCKERHUB_REPO }}:${{ env.SHA_TAG }}, ${{ env.DOCKERHUB_REPO }}:main, ${{ env.DOCKERHUB_REPO }}:latest
 
 
+          
   integration-tests:
             name: Integration Tests
             runs-on: ubuntu-latest
