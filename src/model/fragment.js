@@ -81,7 +81,7 @@ class Fragment {
    * @param {string} id fragment's id
    * @returns Promise<void>
    */
-  static delete(ownerId, id) {
+  static async delete(ownerId, id) {
    return deleteFragment(ownerId, id)
   }
   

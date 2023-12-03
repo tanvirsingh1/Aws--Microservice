@@ -168,9 +168,7 @@ async function deleteFragment(ownerId, id) {
   
     try {
       // Get the object from the Amazon S3 bucket. It is returned as a ReadableStream.
-      await s3Client.send(command);
-      const del = await ddbDocClient.send(command2);
-      return del
+      return await Promise.all([ddbDocClient.send(command), s3Client.send(command2)]);
       
     } catch (err) {
       const { Bucket, Key } = params;

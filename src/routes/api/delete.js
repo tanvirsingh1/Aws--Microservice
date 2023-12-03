@@ -13,9 +13,9 @@ try{
       }))
 }catch (error) {
     console.error("Error deleting fragment:", error);
-    createErrorResponse( res.status(404).json({
+ return createErrorResponse( res.status(404).json({
         status: 'error',
-        message: error.message, // Send the error message from the server
+        message: 'Fragment ID not Found!', // Send the error message from the server
       }));
   }
 
