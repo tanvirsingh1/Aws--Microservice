@@ -1,22 +1,15 @@
+const { createErrorResponse, createSuccessResponse } = require('../../response');
 const { Fragment } = require('../../model/fragment');
 
-
-const { createSuccessResponse, createErrorResponse } = require('../../response');
-
 module.exports = async (req, res) => {
-    let id = req.params.id; 
-try{
+  try {
+    const id = req.params.id;
+    const fragment_data = await Fragment.byId(req.user, id);
+    if(fragment_data){
     await Fragment.delete(req.user, id);
-   return  createSuccessResponse(res.status(200).json({
-        status: 'ok',
-        message: 'Successfully deleted the Fragment',
-      }))
-}catch (error) {
-    console.error("Error deleting fragment:", error);
- return createErrorResponse( res.status(404).json({
-        status: 'error',
-        message: 'Fragment ID not Found!', // Send the error message from the server
-      }));
+    res.status(200).json(createSuccessResponse());
+    }
+  } catch (err) {
+    res.status(404).json(createErrorResponse(404, 'Fragment not found'));
   }
-
-    };
+};

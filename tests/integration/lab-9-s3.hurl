@@ -37,6 +37,11 @@ DELETE {{url}}
 user1@email.com:password1
 HTTP/1.1 200
 
+DELETE {{url}}
+[BasicAuth]
+user1@email.com:password1
+HTTP/1.1 404
+
 # 6. Confirm that the server returns a 200.
 
 # 7. Try to GET the fragment again using the url as an authorized user.
