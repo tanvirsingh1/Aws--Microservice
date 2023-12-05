@@ -1,7 +1,7 @@
 const { Fragment } = require('../../model/fragment');
 const {createErrorResponse, createSuccessResponse} = require('../../response');
 const md  = require('markdown-it')();
-const sharp = require('sharp');
+//const sharp = require('sharp');
 module.exports = async (req, res) => {
     let id = req.params.id; 
     const user = req.user;
@@ -99,15 +99,15 @@ function convertData(data, contentType) {
     {
         return data.toString()
     }
-    else if (contentType === 'image/png') {
-        return sharp(data).toFormat('png');
-      } else if (contentType === 'image/jpeg') {
-        return sharp(data).toFormat('jpeg');
-      } else if (contentType === 'image/gif') {
-        return sharp(data).toFormat('gif');
-      } else if (contentType === 'image/webp') {
-        return sharp(data).toFormat('webp');
-      }
+    // else if (contentType === 'image/png') {
+    //     return sharp(data).toFormat('png');
+    //   } else if (contentType === 'image/jpeg') {
+    //     return sharp(data).toFormat('jpeg');
+    //   } else if (contentType === 'image/gif') {
+    //     return sharp(data).toFormat('gif');
+    //   } else if (contentType === 'image/webp') {
+    //     return sharp(data).toFormat('webp');
+    //   }
     else {
       // For all other types, return the data as is
       return data;
