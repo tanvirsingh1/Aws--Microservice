@@ -143,6 +143,9 @@ class Fragment {
     // Define conversion options for Markdown to HTML
     const plainconvert= ['text/plain']
     const markdownToHtmlConversions = ['text/markdown', 'text/plain','text/html'];
+    const htmlCon = ['text/html', 'text/plain'];
+    const jsonCon = ['application/json', 'text/plain'];
+    const imgCon = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
   
     // Check if the MIME type is 'text/markdown'
     if(this.mimeType === 'text/plain')
@@ -152,6 +155,12 @@ class Fragment {
    else if (this.mimeType === 'text/markdown') {
       // If so, return the available conversion types for Markdown (i.e., to HTML)
       return markdownToHtmlConversions;
+    } else if (this.mimeType === 'text/html') {
+      return htmlCon;
+    } else if (this.mimeType === 'application/json') {
+      return jsonCon;
+    } else if (['image/png', 'image/jpeg', 'image/gif', 'image/webp'].includes(this.mimeType)) {
+      return imgCon;
     } else {
       // For all other MIME types, no conversions are supported at this time
       return []; // Return an empty array indicating no available conversions

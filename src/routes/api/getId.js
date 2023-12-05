@@ -1,6 +1,7 @@
 const { Fragment } = require('../../model/fragment');
 const {createErrorResponse, createSuccessResponse} = require('../../response');
 const md  = require('markdown-it')();
+const sharp = require('sharp');
 module.exports = async (req, res) => {
     let id = req.params.id; 
     const user = req.user;
@@ -27,10 +28,21 @@ try{
     {
         format = "text/plain"
     }
+    else if( extension == "png")
+    {
+        format = "image/png"
+    }else if (extension === "jpg") {
+        format = "image/jpeg";
+    } else if (extension === "webp") {
+        format = "image/webp";
+    } else if (extension === "gif") {
+        format = "image/gif";
+    }
     else if(("text"+extension) === type )
     {
         format = type
     }
+  
     else if(extension)
     {
         format = "invalid"
@@ -39,7 +51,7 @@ try{
     {
         return createErrorResponse(
             res.status(415).json({
-                message: "Invalid type conversion, only markdown to HTML is supported[as of now]",
+                message: "Invalid type conversion",
             })
         );
     }
@@ -49,6 +61,10 @@ try{
         try{
             if (extension === 'html' && fragment_data.mimeType === 'text/markdown') {
                 type = 'text/html';  // Set the content type to HTML if markdown needs to be converted
+              }
+              else if(extension === "jpg" &&  fragment_data.mimeType === 'image/png' )
+              {
+                type = 'image/jpeg';
               }
         const dataResult = await fragment_data.getData();
   
@@ -83,6 +99,15 @@ function convertData(data, contentType) {
     {
         return data.toString()
     }
+    else if (contentType === 'image/png') {
+        return sharp(data).toFormat('png');
+      } else if (contentType === 'image/jpeg') {
+        return sharp(data).toFormat('jpeg');
+      } else if (contentType === 'image/gif') {
+        return sharp(data).toFormat('gif');
+      } else if (contentType === 'image/webp') {
+        return sharp(data).toFormat('webp');
+      }
     else {
       // For all other types, return the data as is
       return data;
