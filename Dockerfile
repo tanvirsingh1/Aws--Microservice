@@ -24,9 +24,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install node dependencies defined in package-lock.json
-RUN npm install --production \
-      npm uninstall sharp && \
-      npm install --platform=linuxmusl --arch=x64 sharp@0.30.7
+# Install node dependencies defined in package-lock.json
+RUN npm install --production && \
+    npm uninstall sharp && \
+    npm install --platform=linuxmusl --arch=x64 sharp@0.30.7
 
 #stage2
 #############################################################
