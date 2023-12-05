@@ -26,7 +26,9 @@ COPY package*.json ./
 # Install node dependencies defined in package-lock.json
 # Install node dependencies defined in package-lock.json
 RUN npm install --production && \
-    npm install sharp
+    npm uninstall sharp && \
+    npm install --platform=linuxmusl --arch=x64 sharp@0.33.0
+
 
 #stage2
 #############################################################
