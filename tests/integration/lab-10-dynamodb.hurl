@@ -114,8 +114,7 @@ GET {{fragment1_url}}
 [BasicAuth]
 user1@email.com:password1
 
-# 11. Confirm that the server returns a 404, since the fragment should be deleted.
-# We should get back an HTTP 1.1 404 response
+# 11. Confirm that the server returns error
 HTTP/1.1 404
 
 # 12. GET all of the fragments for the same authorized user without expanding them

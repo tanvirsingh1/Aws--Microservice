@@ -109,7 +109,7 @@
 //         return sharp(data).toFormat('webp');
 //       }
 //     else {
-//       // For all other types, return the data as is
+//       For all other types, return the data as is
 //       return data;
 //     }
 //   }
@@ -139,26 +139,29 @@ module.exports = async (req, res) => {
         let dataToSend = dataResult;
 
         if (isValidConversion(extension)) {
+            try{
             dataToSend = await  convertData(dataResult, format);
-        }
+            }catch(err) {
+                return createErrorResponse(
+                    res.status(500).json({
+                        code: 500,
+                        message: 'No data Found',
+                    })
+                );
+            }
+        } 
 
         res.setHeader('Content-Type', format);
         return createSuccessResponse(res.status(200).send(dataToSend));
     } catch (err) {
-        if (err.status === 404) {
+        
             return createErrorResponse(
                 res.status(404).json({
-                    message: "Fragment not Found",
-                })
-            );
-        } else {
-            return createErrorResponse(
-                res.status(500).json({
-                    code: 500,
+                    code: 404,
                     message: 'No data Found',
                 })
             );
-        }
+        
     }
 };
 
